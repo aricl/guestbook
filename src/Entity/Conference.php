@@ -29,7 +29,7 @@ class Conference
      */
     private ?string $text;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $createdAt;
 
@@ -37,24 +37,29 @@ class Conference
     {
         $this->id = Uuid::uuid4()->toString();
         $this->city = $city;
+        $this->createdAt = new DateTimeImmutable();
     }
 
     public function getId(): string
     {
         return $this->id;
     }
+
     public function getCity(): string
     {
         return $this->city;
     }
+
     public function getAuthor(): ?string
     {
         return $this->author;
     }
+
     public function getText(): ?string
     {
         return $this->text;
     }
+
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
