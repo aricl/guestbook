@@ -32,13 +32,19 @@ class Comment
      * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $createdAt;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Conference", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private Conference $conference;
 
-    public function __construct(string $author, string $text, string $email)
+    public function __construct(Conference $conference, string $author, string $text, string $email)
     {
         $this->id = Uuid::uuid4()->toString();
         $this->author = $author;
         $this->text = $text;
         $this->email = $email;
         $this->createdAt = new DateTimeImmutable();
+        $this->conference = $conference;
     }
 }

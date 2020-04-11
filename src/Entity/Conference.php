@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
 
@@ -28,6 +29,14 @@ class Conference
      * @ORM\Column(type="boolean")
      */
     private bool $international;
+    /**
+     * @ORM\OneToMany(
+     *     targetEntity="App\Entity\Comment",
+     *     mappedBy="conference",
+     *     orphanRemoval=true
+     * )
+     */
+    private ArrayCollection $comments;
 
     public function __construct(string $city, bool $international)
     {
@@ -35,6 +44,7 @@ class Conference
         $this->city = $city;
         $this->createdAt = new DateTimeImmutable();
         $this->international = $international;
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): string
