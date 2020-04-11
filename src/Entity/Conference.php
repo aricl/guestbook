@@ -21,23 +21,20 @@ class Conference
      */
     private string $city;
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private ?string $author;
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private ?string $text;
-    /**
      * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $createdAt;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private bool $international;
 
-    public function __construct(string $city)
+    public function __construct(string $city, bool $international)
     {
         $this->id = Uuid::uuid4()->toString();
         $this->city = $city;
         $this->createdAt = new DateTimeImmutable();
+        $this->international = $international;
     }
 
     public function getId(): string
@@ -50,18 +47,16 @@ class Conference
         return $this->city;
     }
 
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function getText(): ?string
-    {
-        return $this->text;
-    }
-
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isInternational(): bool
+    {
+        return $this->international;
     }
 }
