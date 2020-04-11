@@ -37,14 +37,48 @@ class Comment
      * @ORM\JoinColumn(nullable=false)
      */
     private Conference $conference;
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private ?string $photoFilename;
 
-    public function __construct(Conference $conference, string $author, string $text, string $email)
-    {
+    private function __construct(
+        Conference $conference,
+        string $author,
+        string $text,
+        string $email,
+        ?string $photoFilename = null
+    ) {
         $this->id = Uuid::uuid4()->toString();
         $this->author = $author;
         $this->text = $text;
         $this->email = $email;
         $this->createdAt = new DateTimeImmutable();
         $this->conference = $conference;
+        $this->photoFilename = $photoFilename;
+    }
+
+    public static function create(Conference $conference, string $author, string $text, string $email): Comment
+    {
+        return new self($conference, $author, $text, $email);
+    }
+
+    public function createWithPhoto(
+        Conference $conference,
+        string $author,
+        string $text,
+        string $email,
+        string $photoFilename
+    ): Comment
+    {
+        return new self(
+            $conference,
+            $author,
+            $text,
+            $email,
+            $photoFilename
+        );
     }
 }
