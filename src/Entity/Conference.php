@@ -18,7 +18,7 @@ class Conference
      */
     private string $id;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private string $city;
     /**
@@ -26,7 +26,7 @@ class Conference
      */
     private DateTimeImmutable $createdAt;
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private bool $international;
     /**
@@ -38,35 +38,30 @@ class Conference
      */
     private ArrayCollection $comments;
 
-    public function __construct(string $city, bool $international)
+    public function __construct()
     {
         $this->id = Uuid::uuid4()->toString();
-        $this->city = $city;
         $this->createdAt = new DateTimeImmutable();
-        $this->international = $international;
         $this->comments = new ArrayCollection();
     }
 
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    public function getCity(): string
+    public function getCity(): ?string
     {
         return $this->city;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function setCity(?string $city): void
     {
-        return $this->createdAt;
+        $this->city = $city;
     }
 
-    /**
-     * @return bool
-     */
-    public function isInternational(): bool
+    public function isInternational(): ?bool
     {
         return $this->international;
+    }
+
+    public function setInternational(?bool $international): void
+    {
+        $this->international = $international;
     }
 }
