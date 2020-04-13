@@ -45,4 +45,21 @@ class ConferenceController // By not extending AbstractController you can custom
             ]
         ));
     }
+
+    /**
+     * @Route("/conference/{id}", name="conference", methods={"GET"})
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function show($id)
+    {
+        $conference = $this->conferenceRepository->findOneBy(['id' => $id]);
+
+        return new Response($this->twig->render('conference/show.html.twig', [
+            'conference' => $conference,
+            'comments' => $conference->getComments(),
+        ]));
+    }
 }

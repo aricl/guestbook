@@ -78,4 +78,12 @@ class Conference
     {
         return $this->international;
     }
+
+    /**
+     * @return Comment[]
+     */
+    public function getComments(): array
+    {
+        return $this->comments ? $this->comments->toArray() : [];
+    }
 }
