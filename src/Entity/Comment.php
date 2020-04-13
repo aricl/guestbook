@@ -8,6 +8,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table("comments")
  */
 class Comment
 {

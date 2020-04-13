@@ -9,6 +9,7 @@ use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity()
+ * @ORM\Table(name="conferences")
  */
 class Conference
 {
