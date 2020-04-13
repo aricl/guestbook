@@ -18,17 +18,17 @@ class Conference
      */
     private string $id;
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string")
      */
-    private ?string $city = null;
+    private string $city;
     /**
      * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $createdAt;
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private ?bool $international = null;
+    private bool $international;
     /**
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Comment",
@@ -38,76 +38,35 @@ class Conference
      */
     private ArrayCollection $comments;
 
-    public function __construct()
+    public function __construct(string $city, bool $international)
     {
         $this->id = Uuid::uuid4()->toString();
+        $this->city = $city;
         $this->createdAt = new DateTimeImmutable();
+        $this->international = $international;
         $this->comments = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
     public function getId(): string
     {
         return $this->id;
     }
 
-    /**
-     * @return DateTimeImmutable
-     */
+    public function getCity(): string
+    {
+        return $this->city;
+    }
+
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function getCity(): ?string
-    {
-        return $this->city;
-    }
-
-    public function setCity(?string $city): void
-    {
-        $this->city = $city;
-    }
-
-    public function isInternational(): ?bool
+    /**
+     * @return bool
+     */
+    public function isInternational(): bool
     {
         return $this->international;
-    }
-
-    public function setInternational(?bool $international): void
-    {
-        $this->international = $international;
-    }
-
-    public function addComment(Comment $comment) : self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
-            $comment->setConference($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comment $comment) : self
-    {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
-            if ($comment->getConference() === $this) {
-                $comment->setConference(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getComments(): ArrayCollection
-    {
-        return $this->comments;
     }
 }
