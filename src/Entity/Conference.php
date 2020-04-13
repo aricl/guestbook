@@ -64,4 +64,26 @@ class Conference
     {
         $this->international = $international;
     }
+
+    public function addComment(Comment $comment) : self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setConference($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment) : self
+    {
+        if ($this->comments->contains($comment)) {
+            $this->comments->removeElement($comment);
+            if ($comment->getConference() === $this) {
+                $comment->setConference(null);
+            }
+        }
+
+        return $this;
+    }
 }
