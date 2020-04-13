@@ -20,7 +20,7 @@ class Conference
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $city;
+    private ?string $city = null;
     /**
      * @ORM\Column(type="datetime_immutable")
      */
@@ -28,7 +28,7 @@ class Conference
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private bool $international;
+    private ?bool $international = null;
     /**
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Comment",
@@ -43,6 +43,22 @@ class Conference
         $this->id = Uuid::uuid4()->toString();
         $this->createdAt = new DateTimeImmutable();
         $this->comments = new ArrayCollection();
+    }
+
+    /**
+     * @return string
+     */
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return DateTimeImmutable
+     */
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 
     public function getCity(): ?string
@@ -85,5 +101,13 @@ class Conference
         }
 
         return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getComments(): ArrayCollection
+    {
+        return $this->comments;
     }
 }
