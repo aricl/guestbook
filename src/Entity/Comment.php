@@ -29,9 +29,9 @@ class Comment
      */
     private ?string $email;
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $createdAt = null;
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Conference", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
@@ -47,7 +47,6 @@ class Comment
     private function __construct()
     {
         $this->id = Uuid::uuid4()->toString();
-        $this->createdAt = new DateTimeImmutable();
     }
 
     /**
@@ -96,6 +95,22 @@ class Comment
     public function setEmail(string $email): void
     {
         $this->email = $email;
+    }
+
+    /**
+     * @return ?DateTimeImmutable
+     */
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param ?DateTimeImmutable $createdAt
+     */
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
     }
 
     /**

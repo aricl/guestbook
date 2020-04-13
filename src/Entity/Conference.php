@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -22,9 +22,9 @@ class Conference
      */
     private ?string $city = null;
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="datetime_immutable", nullable=true)
      */
-    private DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $createdAt = null;
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
@@ -36,13 +36,11 @@ class Conference
      *     orphanRemoval=true
      * )
      */
-    private ArrayCollection $comments;
+    private ?PersistentCollection $comments = null;
 
     public function __construct()
     {
         $this->id = Uuid::uuid4()->toString();
-        $this->createdAt = new DateTimeImmutable();
-        $this->comments = new ArrayCollection();
     }
 
     /**
@@ -54,9 +52,17 @@ class Conference
     }
 
     /**
-     * @return DateTimeImmutable
+     * @param ?DateTimeImmutable $createdAt
      */
-    public function getCreatedAt(): DateTimeImmutable
+    public function setCreatedAt(?DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return ?DateTimeImmutable
+     */
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -103,10 +109,7 @@ class Conference
         return $this;
     }
 
-    /**
-     * @return ArrayCollection
-     */
-    public function getComments(): ArrayCollection
+    public function getComments(): ?PersistentCollection
     {
         return $this->comments;
     }

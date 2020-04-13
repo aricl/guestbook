@@ -22,19 +22,52 @@ class ConferenceController // By not extending AbstractController you can custom
     }
 
     /**
-     * @Route("/conference/{name}", name="conference", methods={"GET"})
-     * @param string $name
+     * @Route("/", name="homepage")
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function index(string $name): Response
+    public function index(): Response
     {
         return new Response($this->twig->render(
             'conference/index.html.twig',
             [
-                'name' => $name,
+                'name' => 'Adam',
+            ]
+        ));
+    }
+
+    /**
+     * @Route("/conference", name="conference")
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function conference()
+    {
+        return new Response($this->twig->render(
+            'conference/index.html.twig',
+            [
+                'name' => 'Adam',
+            ]
+        ));
+    }
+
+    /**
+     * @Route("/comment", name="comment")
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function comment()
+    {
+        return new Response($this->twig->render(
+            'conference/index.html.twig',
+            [
+                'name' => 'Adam',
             ]
         ));
     }
