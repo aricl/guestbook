@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Conference;
 use App\Repository\ConferenceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,16 +48,16 @@ class ConferenceController // By not extending AbstractController you can custom
     }
 
     /**
+     * The id being passed from the route is being used by this class to retrieve the @see Conference entity with that id
+     *
      * @Route("/conference/{id}", name="conference", methods={"GET"})
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function show($id)
+    public function show(Conference $conference)
     {
-        $conference = $this->conferenceRepository->findOneBy(['id' => $id]);
-
         return new Response($this->twig->render('conference/show.html.twig', [
             'conference' => $conference,
             'comments' => $conference->getComments(),
