@@ -3,8 +3,8 @@
 namespace App\Entity;
 
 use DateTimeImmutable;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\PersistentCollection;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -36,15 +36,24 @@ class Conference
      *     orphanRemoval=true
      * )
      */
-    private ArrayCollection $comments;
+    private ?PersistentCollection $comments;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $year;
 
-    public function __construct(string $city, bool $international)
+    public function __construct(string $city, bool $international, int $year)
     {
         $this->id = Uuid::uuid4()->toString();
         $this->city = $city;
         $this->createdAt = new DateTimeImmutable();
         $this->international = $international;
-        $this->comments = new ArrayCollection();
+        $this->year = $year;
+    }
+
+    public function __toString(): string
+    {
+        return $this->city . ' ' . $this->year;
     }
 
     public function getId(): string

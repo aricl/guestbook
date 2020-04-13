@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ConferenceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
@@ -15,26 +16,32 @@ use Twig\Error\{LoaderError, RuntimeError, SyntaxError};
 class ConferenceController // By not extending AbstractController you can customise the controller more and only inject what you need
 {
     private Environment $twig;
+    /**
+     * @var ConferenceRepository
+     */
+    private ConferenceRepository $conferenceRepository;
 
-    public function __construct(Environment $twig)
+    public function __construct(Environment $twig, ConferenceRepository $conferenceRepository)
     {
         $this->twig = $twig;
+        $this->conferenceRepository = $conferenceRepository;
     }
 
     /**
-     * @Route("/conference/{name}", name="conference", methods={"GET"})
-     * @param string $name
+     * @Route("/", name="homepage", methods={"GET"})
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function index(string $name): Response
+    public function index(): Response
     {
+        $conferences = $this->conferenceRepository->findAll();
+
         return new Response($this->twig->render(
             'conference/index.html.twig',
             [
-                'name' => $name,
+                'conferences' => $conferences,
             ]
         ));
     }
