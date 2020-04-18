@@ -5,6 +5,48 @@
 {% block body %}
     <h2>Conferences</h2>
 
+    <div id="contact"><button type="button" class="btn btn-info btn" data-toggle="modal" data-target="#contact-modal">Create Conference</button></div>
+
+    <div id="contact-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <a class="close" data-dismiss="modal">×</a>
+                    <h3>Create Conference</h3>
+                </div>
+                <form id="contactForm" name="contact" role="form">
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="name">City</label>
+                            <input type="text" name="city" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Year</label>
+                            <select name="year" id="year" class="form-control">
+                                {% for year in range(2020, 2030) %}
+                                    <option>{{ year }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">International</label>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="international" id="international" value="1">
+                                <label class="form-check-label" for="international">Yes</label>
+                                <input class="form-check-input" type="radio" name="international" id="international" value="0">
+                                <label class="form-check-label" for="international">No</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-success" id="submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <table>
         <tr>
             <th>City</th>
@@ -30,3 +72,42 @@
         }
     </style>
 {%  endblock %}
+
+{% block javascripts %}
+    <script>
+    $(document).ready(function(){
+        $("#contactForm").submit(function(event){
+            submitForm();
+                return false;
+            });
+    });
+    </script>
+    <script>
+      function submitForm(){
+        $.ajax({
+          type: "POST",
+          url: "saveContact.php",
+          cache:false,
+          data: $('form#contactForm').serialize(),
+          success: function(response){
+            $("#contact").html(response);
+            $("#contact-modal").modal('hide');
+          },
+          error: function(){
+            alert("Error");
+          }
+        });
+      }
+    </script>
+    <script>
+      for (let year = new Date().getFullYear(); year > 1970; year--)
+      {
+        $('#year').append($('<option />').val(year).html(year));
+      }
+    </script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+{% endblock %}
