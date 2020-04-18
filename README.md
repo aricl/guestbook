@@ -15,7 +15,7 @@ reading chapters 9 and 10 of the book. Here I would like to:
    
    Conferences
    
-   a. Creating a tabular view of all the conferences
+   a. Creating a tabular view of all the conferences DONE
    
    b. Adding a modal form to create conferences
    
