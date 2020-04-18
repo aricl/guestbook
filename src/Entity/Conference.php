@@ -22,9 +22,9 @@ class Conference
      */
     private string $city;
     /**
-     * @ORM\Column(type="datetime_immutable")
+     * @ORM\Column(type="integer")
      */
-    private DateTimeImmutable $createdAt;
+    private int $year;
     /**
      * @ORM\Column(type="boolean")
      */
@@ -38,9 +38,9 @@ class Conference
      */
     private ?PersistentCollection $comments;
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="datetime_immutable")
      */
-    private int $year;
+    private DateTimeImmutable $createdAt;
 
     public function __construct(string $city, bool $international, int $year)
     {
@@ -66,9 +66,9 @@ class Conference
         return $this->city;
     }
 
-    public function getCreatedAt(): DateTimeImmutable
+    public function getYear(): int
     {
-        return $this->createdAt;
+        return $this->year;
     }
 
     /**
@@ -87,11 +87,8 @@ class Conference
         return $this->comments ? $this->comments->toArray() : [];
     }
 
-    /**
-     * @return int
-     */
-    public function getYear(): int
+    public function getCreatedAt(): DateTimeImmutable
     {
-        return $this->year;
+        return $this->createdAt;
     }
 }
