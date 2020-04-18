@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\ConferenceRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,13 +22,18 @@ class AdminController
      * @var Environment
      */
     private Environment $twig;
+    /**
+     * @var ConferenceRepository
+     */
+    private ConferenceRepository $conferenceRepository;
 
     /**
      * AdminController constructor.
      */
-    public function __construct(Environment $twig)
+    public function __construct(Environment $twig, ConferenceRepository $conferenceRepository)
     {
         $this->twig = $twig;
+        $this->conferenceRepository = $conferenceRepository;
     }
 
     /**
@@ -46,10 +52,12 @@ class AdminController
      */
     public function conferences()
     {
+        $conferences = $this->conferenceRepository->findAll();
+
         return new Response($this->twig->render(
             'admin/conferences.html.twig',
             [
-                'conferences' => [],
+                'conferences' => $conferences,
             ]
         ));
     }

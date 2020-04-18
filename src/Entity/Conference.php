@@ -86,4 +86,12 @@ class Conference
     {
         return $this->comments ? $this->comments->toArray() : [];
     }
+
+    /**
+     * @return int
+     */
+    public function getYear(): int
+    {
+        return $this->year;
+    }
 }
