@@ -6,11 +6,17 @@
     <h2>Conferences</h2>
 
     <table>
+        <tr>
+            <th>City</th>
+            <th>Year</th>
+            <th>International</th>
+            <th></th>
+        </tr>
         {% for conference in conferences %}
             <tr>
                 <td>{{ conference.city }}</td>
                 <td>{{ conference.year }}</td>
-                <td>{% if conference.international %}International{% else %}Local{% endif %}</td>
+                <td>{% if conference.international %}Yes{% else %}No{% endif %}</td>
                 <td><a href="{{ path('conference', { id: conference.id }) }}">View</a></td>
             </tr>
         {% endfor %}
