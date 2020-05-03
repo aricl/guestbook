@@ -21,7 +21,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form id="createConferenceForm">
+                    <form id="createConferenceForm" action="{{ path('admin_create_conference') }}" method="post">
                         <div class="form-group">
                             <label for="cityField">City</label>
                             <input type="text" class="form-control" id="cityField" placeholder="Enter city">
@@ -89,8 +89,8 @@
 
     <script>
       $('#createConferenceForm').submit(function (event) {
-        console.log(event);
-        event.preventDefault();
+        // console.log(event);
+        // event.preventDefault();
       });
     </script>
 {% endblock %}

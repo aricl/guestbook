@@ -61,4 +61,14 @@ class AdminController
             ]
         ));
     }
+
+    /**
+     * @Route("/admin/conferences", name="admin_create_conference", methods={"POST"})
+     */
+    public function createConference()
+    {
+        var_dump($_POST);exit;
+
+        return new Response('Success!');
+    }
 }
