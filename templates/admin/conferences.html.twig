@@ -4,12 +4,6 @@
 
 {% block body %}
     <h2>Conferences</h2>
-
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createConference">
-        Create Conference
-    </button>
-
     <!-- Modal -->
     <div class="modal fade" id="createConference" tabindex="-1" role="dialog" aria-labelledby="createConferenceLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -58,7 +52,12 @@
                 <th>City</th>
                 <th>Year</th>
                 <th>International</th>
-                <th></th>
+                <th>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createConference">
+                        Create Conference
+                    </button>
+                </th>
             </tr>
         </thead>
         {% for conference in conferences %}
