@@ -67,8 +67,6 @@ class AdminController
      */
     public function createConference()
     {
-        var_dump($_POST);exit;
-
-        return new Response('Success!');
+        return new RedirectResponse('/admin/conferences', 302);
     }
 }
