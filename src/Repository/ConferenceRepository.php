@@ -23,4 +23,10 @@ class ConferenceRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Conference::class);
     }
+
+    public function save(Conference $conference)
+    {
+        $this->getEntityManager()->persist($conference);
+        $this->getEntityManager()->flush($conference);
+    }
 }

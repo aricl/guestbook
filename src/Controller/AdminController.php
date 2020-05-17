@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Conference;
 use App\Repository\ConferenceRepository;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -67,6 +68,13 @@ class AdminController
      */
     public function createConference()
     {
+        $city = strval($_POST['cityField']);
+        $international = boolval($_POST['internationalField']);
+        $year = intval($_POST['yearField']);
+
+        $conference = new Conference($city, $international, $year);
+        $this->conferenceRepository->save($conference);
+
         return new RedirectResponse('/admin/conferences', 302);
     }
 }
