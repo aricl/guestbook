@@ -16,10 +16,10 @@
                 </div>
                 <div class="modal-body">
                     <form id="createConferenceForm" action="{{ path('admin_create_conference') }}" method="post">
-                        <div class="form-group">
-                            <label for="cityField">City</label>
-                            <input type="text" class="form-control" name="cityField" id="cityField" placeholder="Enter city" required>
-                        </div>
+                        {% embed "admin/text_form_field.html.twig" %}
+                            {% set name="city" %}
+                            {% set placeholder="Enter city" %}
+                        {% endembed %}
                         {% embed "admin/number_form_field.html.twig" %}
                             {% set name="year" %}
                             {% set placeholder="Enter year" %}
