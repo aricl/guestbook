@@ -20,10 +20,10 @@
                             <label for="cityField">City</label>
                             <input type="text" class="form-control" name="cityField" id="cityField" placeholder="Enter city" required>
                         </div>
-                        <div class="form-group">
-                            <label for="yearField">Year</label>
-                            <input type="number" class="form-control" name="yearField" id="yearField" placeholder="Enter year" required>
-                        </div>
+                        {% embed "admin/number_form_field.html.twig" %}
+                            {% set name="year" %}
+                            {% set placeholder="Enter year" %}
+                        {% endembed %}
                         <div class="form-group">
                             <label for="internationalField">International</label>
                             <div class="form-check">
