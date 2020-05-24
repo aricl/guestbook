@@ -4,35 +4,24 @@
 
 {% block body %}
     <h2>Conferences</h2>
-    <!-- Modal -->
-    <div class="modal fade" id="createConference" tabindex="-1" role="dialog" aria-labelledby="createConferenceLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="createConferenceLabel">Create Conference</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="createConferenceForm" action="{{ path('admin_create_conference') }}" method="post">
-                        {% embed "form/text_form_field.html.twig" %}
-                            {% set name="city" %}
-                            {% set placeholder="Enter city" %}
-                        {% endembed %}
-                        {% embed "form/number_form_field.html.twig" %}
-                            {% set name="year" %}
-                            {% set placeholder="Enter year" %}
-                        {% endembed %}
-                        {% embed "form/radio_form_field.html.twig"%}
-                            {% set name="international" %}
-                        {% endembed %}
-                        <button type="submit" class="btn btn-primary">Create</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+    {% embed "form/modal_form.html.twig" %}
+        {% set name="createConference" %}
+        {% set title="Create Conference" %}
+        {% set path="admin_create_conference" %}
+        {% block form_fields %}
+            {% embed "form/text_form_field.html.twig" %}
+                {% set name="city" %}
+                {% set placeholder="Enter city" %}
+            {% endembed %}
+            {% embed "form/number_form_field.html.twig" %}
+                {% set name="year" %}
+                {% set placeholder="Enter year" %}
+            {% endembed %}
+            {% embed "form/radio_form_field.html.twig"%}
+                {% set name="international" %}
+            {% endembed %}
+        {% endblock %}
+    {% endembed %}
 
     <table class="table table-hover">
         <thead>
