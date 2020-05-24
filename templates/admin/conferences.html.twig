@@ -24,21 +24,9 @@
                             {% set name="year" %}
                             {% set placeholder="Enter year" %}
                         {% endembed %}
-                        <div class="form-group">
-                            <label for="internationalField">International</label>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="internationalField" id="internationalFieldYes" value="Yes" checked>
-                                <label for="internationalFieldYes">
-                                    Yes
-                                </label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="internationalField" id="internationalFieldNo" value="No">
-                                <label for="internationalFieldNo">
-                                    No
-                                </label>
-                            </div>
-                        </div>
+                        {% embed "admin/radio_form_field.html.twig"%}
+                            {% set name="international" %}
+                        {% endembed %}
                         <button type="submit" class="btn btn-primary">Create</button>
                     </form>
                 </div>
