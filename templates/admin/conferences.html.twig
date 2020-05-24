@@ -16,15 +16,15 @@
                 </div>
                 <div class="modal-body">
                     <form id="createConferenceForm" action="{{ path('admin_create_conference') }}" method="post">
-                        {% embed "admin/text_form_field.html.twig" %}
+                        {% embed "form/text_form_field.html.twig" %}
                             {% set name="city" %}
                             {% set placeholder="Enter city" %}
                         {% endembed %}
-                        {% embed "admin/number_form_field.html.twig" %}
+                        {% embed "form/number_form_field.html.twig" %}
                             {% set name="year" %}
                             {% set placeholder="Enter year" %}
                         {% endembed %}
-                        {% embed "admin/radio_form_field.html.twig"%}
+                        {% embed "form/radio_form_field.html.twig"%}
                             {% set name="international" %}
                         {% endembed %}
                         <button type="submit" class="btn btn-primary">Create</button>
