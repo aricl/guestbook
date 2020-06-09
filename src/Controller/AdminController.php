@@ -66,13 +66,33 @@ class AdminController
     /**
      * @Route("/admin/conferences", name="admin_create_conference", methods={"POST"})
      */
-    public function createConference()
+    public function createConference(): Response
     {
         $city = strval($_POST['cityField']);
         $international = boolval($_POST['internationalField']);
         $year = intval($_POST['yearField']);
 
         $conference = new Conference($city, $international, $year);
+        $this->conferenceRepository->save($conference);
+
+        return new RedirectResponse('/admin/conferences', 302);
+    }
+
+    /**
+     * @Route("/admin/conferences", name="admin_update_conference", methods={"PUT"})
+     */
+    public function updateConference(): Response
+    {
+        $conferenceId = $_POST['conferenceId'];
+        $conference = $this->conferenceRepository->getByIdOrFail($conferenceId);
+
+        $city = strval($_POST['cityField']);
+        $conference->updateCity($city);
+        $international = boolval($_POST['internationalField']);
+        $conference->updateInternational($international);
+        $year = intval($_POST['yearField']);
+        $conference->updateYear($year);
+
         $this->conferenceRepository->save($conference);
 
         return new RedirectResponse('/admin/conferences', 302);

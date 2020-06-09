@@ -5,6 +5,7 @@ namespace App\Entity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
+use phpDocumentor\Reflection\Types\Integer;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -49,6 +50,27 @@ class Conference
         $this->createdAt = new DateTimeImmutable();
         $this->international = $international;
         $this->year = $year;
+    }
+
+    public function updateCity(string $city)
+    {
+        if ($city != $this->city) {
+            $this->city = $city;
+        }
+    }
+
+    public function updateYear(int $year)
+    {
+        if ($year != $this->year) {
+            $this->year = $year;
+        }
+    }
+
+    public function updateInternational(bool $international)
+    {
+        if ($international != $this->international) {
+            $this->international = $international;
+        }
     }
 
     public function __toString(): string
