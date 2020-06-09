@@ -5,7 +5,6 @@ namespace App\Entity;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
-use phpDocumentor\Reflection\Types\Integer;
 use Ramsey\Uuid\Uuid;
 
 /**
