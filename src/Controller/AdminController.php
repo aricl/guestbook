@@ -97,4 +97,12 @@ class AdminController
 
         return new RedirectResponse('/admin/conferences', 302);
     }
+
+    /**
+     * @Route("/admin/conferences/", name="admin_get_conference", methods={"GET"})
+     */
+    public function getConference(string $id): Response
+    {
+        return new Response($id);
+    }
 }
