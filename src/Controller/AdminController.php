@@ -88,7 +88,7 @@ class AdminController
 
         $city = strval($_POST['cityField']);
         $conference->updateCity($city);
-        $international = boolval($_POST['internationalField']);
+        $international = $_POST['internationalField'] == 'Yes';
         $conference->updateInternational($international);
         $year = intval($_POST['yearField']);
         $conference->updateYear($year);
