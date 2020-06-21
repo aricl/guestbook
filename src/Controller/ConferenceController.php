@@ -7,7 +7,6 @@ use App\Repository\ConferenceRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
-use Twig\Error\{LoaderError, RuntimeError, SyntaxError};
 
 /**
  * ConferenceController
@@ -17,9 +16,6 @@ use Twig\Error\{LoaderError, RuntimeError, SyntaxError};
 class ConferenceController // By not extending AbstractController you can customise the controller more and only inject what you need
 {
     private Environment $twig;
-    /**
-     * @var ConferenceRepository
-     */
     private ConferenceRepository $conferenceRepository;
 
     public function __construct(Environment $twig, ConferenceRepository $conferenceRepository)
@@ -31,9 +27,6 @@ class ConferenceController // By not extending AbstractController you can custom
     /**
      * @Route("/", name="homepage", methods={"GET"})
      * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function index(): Response
     {
@@ -52,9 +45,6 @@ class ConferenceController // By not extending AbstractController you can custom
      *
      * @Route("/conference/{id}", name="conference", methods={"GET"})
      * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
      */
     public function show(Conference $conference)
     {
