@@ -5,6 +5,7 @@
 {% block body %}
     <h2>Conferences</h2>
     {% embed "admin/create_conference_form.html.twig" %}{% endembed %}
+    {% embed "admin/update_conference_form.html.twig" %}{% endembed %}
 
     <table class="table table-hover">
         <thead>
@@ -27,7 +28,7 @@
                 <td>{% if conference.international %}Yes{% else %}No{% endif %}</td>
                 <td>
                     <a class="" href="{{ path('conference', { id: conference.id }) }}">View</a>
-                    <a class="text-primary table-hover test" style="cursor: pointer" data-toggle="modal" data-target="#createConference" data-id="{{ conference.id }}">Update</a>
+                    <a class="text-primary table-hover test" style="cursor: pointer" data-toggle="modal" data-target="#updateConference" data-id="{{ conference.id }}">Update</a>
                 </td>
             </tr>
         {% endfor %}
@@ -50,7 +51,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <script>
-      $('#createConference').on('show.bs.modal', function (event) {
+      $('#updateConference').on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget); // Button that triggered the modal
         let id = button.data('id'); // Extract info from data-* attributes
 
@@ -69,11 +70,11 @@
           if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status === 200) {
               let jsonResponseData = request.response;
-              let responseDataObject = JSON.parse(jsonResponseData);
+              let responseDataArray = JSON.parse(jsonResponseData);
 
-              let modal = $('#createConference');
+              let modal = $('#updateConference');
               // Loop over the data returned by the ajax request and populate input fields with the values returned
-              for (let [datumKey, datumValue] of Object.entries(responseDataObject)) {
+              for (let [datumKey, datumValue] of Object.entries(responseDataArray)) {
                 modal.find('#' + datumKey + 'Field').val(datumValue);
               }
             } else {

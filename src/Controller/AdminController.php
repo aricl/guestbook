@@ -79,11 +79,11 @@ class AdminController
     }
 
     /**
-     * @Route("/admin/conferences", name="admin_update_conference", methods={"PUT"})
+     * @Route("/admin/update_conference", name="admin_update_conference", methods={"POST"})
      */
     public function updateConference(): Response
     {
-        $conferenceId = $_POST['conferenceId'];
+        $conferenceId = $_POST['idField'];
         $conference = $this->conferenceRepository->getByIdOrFail($conferenceId);
 
         $city = strval($_POST['cityField']);
