@@ -99,10 +99,17 @@ class AdminController
     }
 
     /**
-     * @Route("/admin/conferences/", name="admin_get_conference", methods={"GET"})
+     * @Route("/admin/conferences/{id}", name="admin_get_conference", methods={"GET"})
      */
     public function getConference(string $id): Response
     {
-        return new Response($id);
+        $conference = $this->conferenceRepository->getByIdOrFail($id);
+
+        return new Response(json_encode([
+            'id' => $conference->getId(),
+            'city' => $conference->getCity(),
+            'year' => $conference->getYear(),
+            'international' => $conference->isInternational(),
+        ]));
     }
 }

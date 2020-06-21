@@ -43,6 +43,6 @@ class ConferenceRepository extends ServiceEntityRepository
             throw new EntityNotFoundException("The conference with id '{$conferenceId}' could not be found");
         }
 
-        return $conference;
+        return $conference[0];
     }
 }
