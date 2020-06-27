@@ -10,9 +10,6 @@ use Doctrine\Persistence\ManagerRegistry;
 /**
  * ConferenceRepository
  *
- * @author    Gigabyte Software Limited
- * @copyright Gigabyte Software Limited
- *
  * @method Conference|null find($id, $lockMode = null, $lockVersion = null)
  * @method Conference|null findOneBy(array $criteria, array $orderBy = null)
  * @method Conference[]    findAll()
