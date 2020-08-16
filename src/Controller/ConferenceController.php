@@ -38,7 +38,7 @@ class ConferenceController // By not extending AbstractController you can custom
     /**
      * The id being passed from the route is being used by this class to retrieve the @see Conference entity with that id
      *
-     * @Route("/conference/{id}", name="conference", methods={"GET"})
+     * @Route("/conference/{slug}", name="conference", methods={"GET"})
      * @return Response
      */
     public function show(

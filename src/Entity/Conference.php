@@ -124,4 +124,9 @@ class Conference
     {
         return $this->createdAt;
     }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
 }

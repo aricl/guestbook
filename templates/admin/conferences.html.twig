@@ -27,7 +27,7 @@
                 <td>{{ conference.year }}</td>
                 <td>{% if conference.international %}Yes{% else %}No{% endif %}</td>
                 <td>
-                    <a class="" href="{{ path('conference', { id: conference.id }) }}">View</a>
+                    <a class="" href="{{ path('conference', { slug: conference.slug }) }}">View</a>
                     <a class="text-primary table-hover test" style="cursor: pointer" data-toggle="modal" data-target="#updateConference" data-id="{{ conference.id }}">Update</a>
                 </td>
             </tr>
