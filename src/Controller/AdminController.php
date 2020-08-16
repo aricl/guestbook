@@ -47,14 +47,7 @@ class AdminController
      */
     public function conferences()
     {
-        $conferences = $this->conferenceRepository->findAll();
-
-        return new Response($this->twig->render(
-            'admin/conferences.html.twig',
-            [
-                'conferences' => $conferences,
-            ]
-        ));
+        return new Response($this->twig->render('admin/conferences.html.twig'));
     }
 
     /**

@@ -44,8 +44,7 @@ class ConferenceController // By not extending AbstractController you can custom
     public function show(
         Request $request,
         Conference $conference,
-        CommentRepository $commentRepository,
-        ConferenceRepository $conferenceRepository
+        CommentRepository $commentRepository
     ) {
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $commentRepository->getCommentPaginator($conference, $offset);
