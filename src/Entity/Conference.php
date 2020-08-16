@@ -6,9 +6,12 @@ use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
 use Ramsey\Uuid\Uuid;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @ORM\Entity()
+ * @UniqueEntity("slug")
  */
 class Conference
 {
@@ -41,6 +44,10 @@ class Conference
      * @ORM\Column(type="datetime_immutable")
      */
     private DateTimeImmutable $createdAt;
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private string $slug = '';
 
     public function __construct(string $city, bool $international, int $year)
     {
@@ -70,6 +77,11 @@ class Conference
         if ($international != $this->international) {
             $this->international = $international;
         }
+    }
+
+    public function computeSlug(SluggerInterface $slugger)
+    {
+        $this->slug = strval($slugger->slug(strval($this))->lower());
     }
 
     public function __toString(): string

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "31aca8ab53d099134927d1736adb03dd",
+    "content-hash": "95abba80cbcbbd933d63103725259ea3",
     "packages": [
         {
             "name": "brick/math",
@@ -6066,20 +6066,20 @@
         },
         {
             "name": "symfony/string",
-            "version": "v5.0.7",
+            "version": "v5.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/string.git",
-                "reference": "48a2f4b3597514e6c885c0ddb22d3bbdb60517d0"
+                "reference": "1f16181787d56464c834a3ca577f385500ec9213"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/string/zipball/48a2f4b3597514e6c885c0ddb22d3bbdb60517d0",
-                "reference": "48a2f4b3597514e6c885c0ddb22d3bbdb60517d0",
+                "url": "https://api.github.com/repos/symfony/string/zipball/1f16181787d56464c834a3ca577f385500ec9213",
+                "reference": "1f16181787d56464c834a3ca577f385500ec9213",
                 "shasum": ""
             },
             "require": {
-                "php": "^7.2.5",
+                "php": ">=7.2.5",
                 "symfony/polyfill-intl-grapheme": "~1.0",
                 "symfony/polyfill-intl-normalizer": "~1.0",
                 "symfony/polyfill-mbstring": "~1.0",
@@ -6140,7 +6140,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-03-16T13:02:39+00:00"
+            "time": "2020-05-20T17:38:26+00:00"
         },
         {
             "name": "symfony/translation",
@@ -7928,7 +7928,8 @@
     "platform": {
         "php": "^7.4",
         "ext-ctype": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-json": "*"
     },
     "platform-dev": [],
     "plugin-api-version": "1.1.0"
