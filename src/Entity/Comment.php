@@ -60,12 +60,7 @@ class Comment
         $this->photoFilename = $photoFilename;
     }
 
-    public static function create(Conference $conference, string $author, string $text, string $email): Comment
-    {
-        return new self($conference, $author, $text, $email);
-    }
-
-    public function createWithPhoto(
+    public static function create(
         Conference $conference,
         string $author,
         string $text,

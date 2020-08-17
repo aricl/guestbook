@@ -5,6 +5,11 @@ namespace App\Controller;
 use App\Entity\Conference;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,14 +38,39 @@ class ConferenceController // By not extending AbstractController you can custom
     /**
      * The id being passed from the route is being used by this class to retrieve the @see Conference entity with that id
      *
-     * @Route("/conference/{slug}", name="conference", methods={"GET"})
+     * @Route("/conference/{slug}", name="conference", methods={"GET", "POST"})
      * @return Response
      */
     public function show(
         Request $request,
         Conference $conference,
-        CommentRepository $commentRepository
+        CommentRepository $commentRepository,
+        FormFactoryInterface $formFactory
     ) {
+        $form = $formFactory
+            ->create()
+            ->add('text', TextareaType::class)
+            ->add('author', TextType::class)
+            ->add('emailAddress', TextType::class)
+            ->add('photoFilename', TextType::class)
+            ->add('submit', SubmitType::class)
+        ;
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            $formData = $form->getData();
+
+            $conference->addComment(
+                $formData['text'],
+                $formData['author'],
+                $formData['emailAddress'],
+                $formData['photoFilename']
+            );
+            $this->conferenceRepository->save($conference);
+
+            return new RedirectResponse('/conference/' . $conference->getSlug());
+        }
+
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $commentRepository->getCommentPaginator($conference, $offset);
 
@@ -49,6 +79,7 @@ class ConferenceController // By not extending AbstractController you can custom
             'comments' => $paginator,
             'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
+            'form' => $form->createView(),
         ]));
     }
 }

@@ -36,7 +36,8 @@ class Conference
      * @ORM\OneToMany(
      *     targetEntity="App\Entity\Comment",
      *     mappedBy="conference",
-     *     orphanRemoval=true
+     *     orphanRemoval=true,
+     *     cascade={"persist"}
      * )
      */
     private ?PersistentCollection $comments;
@@ -125,5 +126,11 @@ class Conference
     public function getSlug(): string
     {
         return $this->slug;
+    }
+
+    public function addComment($text, $author, $emailAddress, $photoFilename)
+    {
+        $comment = Comment::create($this, $author, $text, $emailAddress, $photoFilename);
+        $this->comments->add($comment);
     }
 }
