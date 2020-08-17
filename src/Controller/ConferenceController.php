@@ -78,11 +78,18 @@ class ConferenceController // By not extending AbstractController you can custom
                     // Unable to upload photo, give up
                 }
 
-                $conference->addComment(
+                $conference->addCommentWithPhoto(
                     $formData['text'],
                     $formData['author'],
                     $formData['emailAddress'],
                     $filename
+                );
+                $this->conferenceRepository->save($conference);
+            } else {
+                $conference->addCommentWithoutPhoto(
+                    $formData['text'],
+                    $formData['author'],
+                    $formData['emailAddress']
                 );
                 $this->conferenceRepository->save($conference);
             }

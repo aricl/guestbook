@@ -48,23 +48,23 @@ class Comment
         Conference $conference,
         string $author,
         string $text,
-        string $email,
+        string $emailAddress,
         ?string $photoFilename = null
     ) {
         $this->id = Uuid::uuid4()->toString();
         $this->author = $author;
         $this->text = $text;
-        $this->email = $email;
+        $this->email = $emailAddress;
         $this->createdAt = new DateTimeImmutable();
         $this->conference = $conference;
         $this->photoFilename = $photoFilename;
     }
 
-    public static function create(
+    public static function createWithPhoto(
         Conference $conference,
         string $author,
         string $text,
-        string $email,
+        string $emailAddress,
         string $photoFilename
     ): Comment
     {
@@ -72,8 +72,23 @@ class Comment
             $conference,
             $author,
             $text,
-            $email,
+            $emailAddress,
             $photoFilename
+        );
+    }
+
+    public static function createWithoutPhoto(
+        Conference $conference,
+        string $author,
+        string $text,
+        string $emailAddress
+    ): Comment
+    {
+        return new self(
+            $conference,
+            $author,
+            $text,
+            $emailAddress
         );
     }
 

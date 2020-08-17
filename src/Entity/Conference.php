@@ -128,9 +128,15 @@ class Conference
         return $this->slug;
     }
 
-    public function addComment($text, $author, $emailAddress, $photoFilename)
+    public function addCommentWithPhoto($text, $author, $emailAddress, $photoFilename)
     {
-        $comment = Comment::create($this, $author, $text, $emailAddress, $photoFilename);
+        $comment = Comment::createWithPhoto($this, $author, $text, $emailAddress, $photoFilename);
+        $this->comments->add($comment);
+    }
+
+    public function addCommentWithoutPhoto($text, $author, $emailAddress)
+    {
+        $comment = Comment::createWithoutPhoto($this, $author, $text, $emailAddress);
         $this->comments->add($comment);
     }
 }
