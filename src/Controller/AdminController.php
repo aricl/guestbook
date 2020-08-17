@@ -82,29 +82,46 @@ class AdminController
         }
 
         return new Response($this->twig->render(
-            'admin/create_conference_form.html.twig',
+            'admin/conference_form.html.twig',
             ['form' => $form->createView()]
         ));
     }
 
     /**
-     * @Route("/admin/update_conference", name="admin_update_conference", methods={"POST"})
+     * @Route("/admin/update_conference/{id}", name="admin_update_conference", methods={"GET", "POST"})
      */
-    public function updateConference(): Response
+    public function updateConference($id, Request $request, FormFactoryInterface $formFactory): Response
     {
-        $conferenceId = $_POST['idField'];
-        $conference = $this->conferenceRepository->getByIdOrFail($conferenceId);
+        $conference = $this->conferenceRepository->getByIdOrFail($id);
+        $form = $formFactory
+            ->create()
+            ->setData([
+                'city' => $conference->getCity(),
+                'international' => $conference->isInternational(),
+                'year' => $conference->getYear(),
+            ])
+            ->add('city', TextType::class)
+            ->add('international', CheckboxType::class, ['required' => false])
+            ->add('year', IntegerType::class)
+            ->add('submit', SubmitType::class)
+        ;
 
-        $city = strval($_POST['cityField']);
-        $conference->updateCity($city);
-        $international = $_POST['internationalField'] == 'Yes';
-        $conference->updateInternational($international);
-        $year = intval($_POST['yearField']);
-        $conference->updateYear($year);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            $formData = $form->getData();
 
-        $this->conferenceRepository->save($conference);
+            $conference->updateCity($formData['city']);
+            $conference->updateInternational($formData['international']);
+            $conference->updateYear($formData['year']);
+            $this->conferenceRepository->save($conference);
 
-        return new RedirectResponse('/admin/conferences', 302);
+            return new RedirectResponse('/admin/conferences', 302);
+        }
+
+        return new Response($this->twig->render(
+            'admin/conference_form.html.twig',
+            ['form' => $form->createView()]
+        ));
     }
 
     /**

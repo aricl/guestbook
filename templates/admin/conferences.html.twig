@@ -4,7 +4,6 @@
 
 {% block body %}
     <h2>Conferences</h2>
-    {% embed "admin/update_conference_form.html.twig" %}{% endembed %}
 
     <table class="table table-hover">
         <thead>
@@ -24,7 +23,7 @@
                 <td>{% if conference.international %}Yes{% else %}No{% endif %}</td>
                 <td>
                     <a class="" href="{{ path('conference', { slug: conference.slug }) }}">View</a>
-                    <a class="text-primary table-hover test" style="cursor: pointer" data-toggle="modal" data-target="#updateConference" data-id="{{ conference.id }}">Update</a>
+                    <a class="" href="{{ path('admin_update_conference', { id: conference.id }) }}">Update</a>
                 </td>
             </tr>
         {% endfor %}
@@ -38,7 +37,3 @@
         }
     </style>
 {%  endblock %}
-
-{% block javascripts %}
-    <script src="{{ asset('js/update_conference.js') }}" ></script>
-{% endblock %}
