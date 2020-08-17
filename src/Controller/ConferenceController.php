@@ -5,14 +5,17 @@ namespace App\Controller;
 use App\Entity\Conference;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Image;
 use Twig\Environment;
 
 class ConferenceController // By not extending AbstractController you can customise the controller more and only inject what you need
@@ -45,14 +48,21 @@ class ConferenceController // By not extending AbstractController you can custom
         Request $request,
         Conference $conference,
         CommentRepository $commentRepository,
-        FormFactoryInterface $formFactory
+        FormFactoryInterface $formFactory,
+        string $photoDirectory
     ) {
         $form = $formFactory
             ->create()
             ->add('text', TextareaType::class)
             ->add('author', TextType::class)
             ->add('emailAddress', TextType::class)
-            ->add('photoFilename', TextType::class)
+            ->add('photo', FileType::class, [
+                'required' => false,
+                'mapped' => false,
+                'constraints' => [
+                    new Image(['maxSize' => '1024k'])
+                ],
+            ])
             ->add('submit', SubmitType::class)
         ;
 
@@ -60,13 +70,22 @@ class ConferenceController // By not extending AbstractController you can custom
         if ($form->isSubmitted() and $form->isValid()) {
             $formData = $form->getData();
 
-            $conference->addComment(
-                $formData['text'],
-                $formData['author'],
-                $formData['emailAddress'],
-                $formData['photoFilename']
-            );
-            $this->conferenceRepository->save($conference);
+            if ($photo = $form['photo']->getData()) {
+                $filename = bin2hex(random_bytes(6)) . '.' . $photo->guessExtension();
+                try {
+                    $photo->move($photoDirectory, $filename);
+                } catch (FileException $exception) {
+                    // Unable to upload photo, give up
+                }
+
+                $conference->addComment(
+                    $formData['text'],
+                    $formData['author'],
+                    $formData['emailAddress'],
+                    $filename
+                );
+                $this->conferenceRepository->save($conference);
+            }
 
             return new RedirectResponse('/conference/' . $conference->getSlug());
         }
