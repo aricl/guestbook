@@ -4,7 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Conference;
 use App\Repository\ConferenceRepository;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
@@ -28,8 +34,10 @@ class AdminController
     /**
      * AdminController constructor.
      */
-    public function __construct(Environment $twig, ConferenceRepository $conferenceRepository)
-    {
+    public function __construct(
+        Environment $twig,
+        ConferenceRepository $conferenceRepository
+    ) {
         $this->twig = $twig;
         $this->conferenceRepository = $conferenceRepository;
     }
@@ -51,18 +59,32 @@ class AdminController
     }
 
     /**
-     * @Route("/admin/conferences", name="admin_create_conference", methods={"POST"})
+     * @Route("/admin/create_conference", name="admin_create_conference", methods={"GET", "POST"})
      */
-    public function createConference(): Response
+    public function createConference(Request $request, FormFactoryInterface $formFactory): Response
     {
-        $city = strval($_POST['cityField']);
-        $international = boolval($_POST['internationalField']);
-        $year = intval($_POST['yearField']);
+        $form = $formFactory
+            ->create()
+            ->add('city', TextType::class)
+            ->add('international', CheckboxType::class, ['required' => false])
+            ->add('year', IntegerType::class)
+            ->add('submit', SubmitType::class)
+        ;
 
-        $conference = new Conference($city, $international, $year);
-        $this->conferenceRepository->save($conference);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() and $form->isValid()) {
+            $formData = $form->getData();
 
-        return new RedirectResponse('/admin/conferences', 302);
+            $conference = new Conference($formData['city'], $formData['international'], $formData['year']);
+            $this->conferenceRepository->save($conference);
+
+            return new RedirectResponse('/admin/conferences', 302);
+        }
+
+        return new Response($this->twig->render(
+            'admin/create_conference_form.html.twig',
+            ['form' => $form->createView()]
+        ));
     }
 
     /**

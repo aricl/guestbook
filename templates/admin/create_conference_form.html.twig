@@ -1,18 +1,4 @@
-{% embed "form/modal_form.html.twig" %}
-    {% set name="createConference" %}
-    {% set title="Create Conference" %}
-    {% set path="admin_create_conference" %}
-    {% block form_fields %}
-        {% embed "form/text_form_field.html.twig" %}
-            {% set name="city" %}
-            {% set placeholder="Enter city" %}
-        {% endembed %}
-        {% embed "form/number_form_field.html.twig" %}
-            {% set name="year" %}
-            {% set placeholder="Enter year" %}
-        {% endembed %}
-        {% embed "form/radio_form_field.html.twig"%}
-            {% set name="international" %}
-        {% endembed %}
-    {% endblock %}
-{% endembed %}
+{% extends 'base.html.twig' %}
+{% block body %}
+    {{ form(form) }}
+{% endblock %}
