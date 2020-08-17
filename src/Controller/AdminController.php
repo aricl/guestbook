@@ -15,25 +15,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
-/**
- * AdminController
- * @author    Gigabyte Software Limited
- * @copyright Gigabyte Software Limited
- */
 class AdminController
 {
-    /**
-     * @var Environment
-     */
     private Environment $twig;
-    /**
-     * @var ConferenceRepository
-     */
     private ConferenceRepository $conferenceRepository;
 
-    /**
-     * AdminController constructor.
-     */
     public function __construct(
         Environment $twig,
         ConferenceRepository $conferenceRepository

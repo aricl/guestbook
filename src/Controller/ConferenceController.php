@@ -10,11 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
 
-/**
- * ConferenceController
- * @author    Gigabyte Software Limited
- * @copyright Gigabyte Software Limited
- */
 class ConferenceController // By not extending AbstractController you can customise the controller more and only inject what you need
 {
     private Environment $twig;

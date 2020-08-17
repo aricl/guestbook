@@ -104,9 +104,6 @@ class Conference
         return $this->year;
     }
 
-    /**
-     * @return bool
-     */
     public function isInternational(): bool
     {
         return $this->international;
