@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Api\SpamChecker;
+use App\Entity\Comment;
 use App\Entity\Conference;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
@@ -49,7 +51,8 @@ class ConferenceController // By not extending AbstractController you can custom
         Conference $conference,
         CommentRepository $commentRepository,
         FormFactoryInterface $formFactory,
-        string $photoDirectory
+        string $photoDirectory,
+        SpamChecker $spamChecker
     ) {
         $form = $formFactory
             ->create()
@@ -78,19 +81,25 @@ class ConferenceController // By not extending AbstractController you can custom
                     // Unable to upload photo, give up
                 }
 
-                $conference->addCommentWithPhoto(
+                $comment = $conference->addCommentWithPhoto(
                     $formData['text'],
                     $formData['author'],
                     $formData['emailAddress'],
                     $filename
                 );
+
+                $this->checkForSpam($request, $spamChecker, $comment);
+
                 $this->conferenceRepository->save($conference);
             } else {
-                $conference->addCommentWithoutPhoto(
+                $comment = $conference->addCommentWithoutPhoto(
                     $formData['text'],
                     $formData['author'],
                     $formData['emailAddress']
                 );
+
+                $this->checkForSpam($request, $spamChecker, $comment);
+
                 $this->conferenceRepository->save($conference);
             }
 
@@ -107,5 +116,23 @@ class ConferenceController // By not extending AbstractController you can custom
             'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
             'form' => $form->createView(),
         ]));
+    }
+
+    private function checkForSpam(Request $request, SpamChecker $spamChecker, Comment $comment): void
+    {
+        $context = $this->getContext($request);
+        if ($spamChecker->getSpamScore($comment, $context) === 2) {
+            throw new \RuntimeException('Blatant spam, go away!');
+        }
+    }
+
+    private function getContext(Request $request): array
+    {
+        return [
+            'user_ip' => $request->getClientIp(),
+            'user_agent' => $request->headers->get('user-agent'),
+            'referrer' => $request->headers->get('referer'),
+            'permalink' => $request->getUri(),
+        ];
     }
 }
