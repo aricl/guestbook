@@ -121,7 +121,7 @@ class ConferenceController // By not extending AbstractController you can custom
     private function checkForSpam(Request $request, SpamChecker $spamChecker, Comment $comment): void
     {
         $context = $this->getContext($request);
-        if ($spamChecker->getSpamScore($comment, $context) === 2) {
+        if ($spamChecker->getSpamScore($comment, $context) >= 1) {
             throw new \RuntimeException('Blatant spam, go away!');
         }
     }

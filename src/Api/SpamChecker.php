@@ -31,7 +31,7 @@ class SpamChecker
                         'blog' => 'https://guestbook.example.com',
                         'comment_type' => 'comment',
                         'comment_author' => $comment->getAuthor(),
-                        'comment_author_email' => 'akismet-guaranteed-spam@example.com',
+                        'comment_author_email' => $comment->getEmail(),
                         'comment_content' => $comment->getText(),
                         'comment_date_gmt' => $comment->getCreatedAt()->format('c'),
                         'blog_lang' => 'en',
