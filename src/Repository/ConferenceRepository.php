@@ -27,7 +27,7 @@ class ConferenceRepository extends ServiceEntityRepository
     public function save(Conference $conference)
     {
         $this->getEntityManager()->persist($conference);
-        $this->getEntityManager()->flush($conference);
+        $this->getEntityManager()->flush();
     }
 
     /**
