@@ -28,15 +28,15 @@ class AppFixtures extends Fixture
 
         $amsterdam = new Conference(
             'Amsterdam',
-            2019,
-            true
+            true,
+            2019
         );
         $manager->persist($amsterdam);
 
         $paris = new Conference(
             'Paris',
-            2020,
-            true
+            true,
+            2020
         );
         $manager->persist($paris);
 
