@@ -16,3 +16,9 @@
 ###< symfony/phpunit-bridge ###
 
 /public/uploads/photos
+
+# Secrets asymmetric public/private keys. These should not be committed
+config/secrets/dev/dev.decrypt.private.php
+config/secrets/dev/dev.encrypt.public.php
+config/secrets/test/test.decrypt.private.php
+config/secrets/test/test.encrypt.public.php
