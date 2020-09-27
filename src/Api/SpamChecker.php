@@ -2,7 +2,7 @@
 
 namespace App\Api;
 
-use App\Entity\Comment;
+use App\Entity\Comment\Comment;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class SpamChecker

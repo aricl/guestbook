@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Entity\Comment;
+use App\Entity\Comment\Comment;
 use App\Entity\Conference;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;

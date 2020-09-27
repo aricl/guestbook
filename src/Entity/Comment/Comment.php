@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\Comment;
 
+use App\Entity\Conference;
+use BadMethodCallException;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
@@ -43,6 +45,10 @@ class Comment
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $photoFilename;
+    /**
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private string $state;
 
     private function __construct(
         Conference $conference,
@@ -58,6 +64,7 @@ class Comment
         $this->createdAt = new DateTimeImmutable();
         $this->conference = $conference;
         $this->photoFilename = $photoFilename;
+        $this->state = State::SUBMITTED;
     }
 
     public static function createWithPhoto(
@@ -90,6 +97,30 @@ class Comment
             $text,
             $emailAddress
         );
+    }
+
+    public function markAsSpam()
+    {
+        if ($this->state != State::SUBMITTED) {
+            $currentState = $this->state;
+            throw new BadMethodCallException(
+                "Cannot mark this comment as spam as it has the current state of {$currentState}"
+            );
+        }
+
+        $this->state = State::SPAM;
+    }
+
+    public function markAsPublished()
+    {
+        if ($this->state != State::SUBMITTED) {
+            $currentState = $this->state;
+            throw new BadMethodCallException(
+                "Cannot publish this comment as it has the current state of {$currentState}"
+            );
+        }
+
+        $this->state = State::PUBLISHED;
     }
 
     public function getId(): string

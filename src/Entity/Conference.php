@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Comment\Comment;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\PersistentCollection;
@@ -34,7 +35,7 @@ class Conference
     private bool $international;
     /**
      * @ORM\OneToMany(
-     *     targetEntity="App\Entity\Comment",
+     *     targetEntity="App\Entity\Comment\Comment",
      *     mappedBy="conference",
      *     orphanRemoval=true,
      *     cascade={"persist"}

@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Admin;
-use App\Entity\Comment;
+use App\Entity\Comment\Comment;
 use App\Entity\Conference;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;

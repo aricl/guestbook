@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Api\SpamChecker;
-use App\Entity\Comment;
+use App\Entity\Comment\Comment;
 use App\Entity\Conference;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
