@@ -8,6 +8,9 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
+/**
+ * @method Comment|null find($id, $lockMode = null, $lockVersion = null)
+ */
 class CommentRepository extends ServiceEntityRepository
 {
     public const PAGINATOR_PER_PAGE = 2;

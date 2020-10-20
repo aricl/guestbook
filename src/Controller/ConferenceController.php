@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Api\SpamChecker;
 use App\Entity\Comment\Comment;
 use App\Entity\Conference;
+use App\Message\CommentMessage;
 use App\Repository\CommentRepository;
 use App\Repository\ConferenceRepository;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -16,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Image;
 use Twig\Environment;
@@ -24,11 +26,16 @@ class ConferenceController // By not extending AbstractController you can custom
 {
     private Environment $twig;
     private ConferenceRepository $conferenceRepository;
+    private MessageBusInterface $messageBus;
 
-    public function __construct(Environment $twig, ConferenceRepository $conferenceRepository)
-    {
+    public function __construct(
+        Environment $twig,
+        ConferenceRepository $conferenceRepository,
+        MessageBusInterface $messageBus
+    ) {
         $this->twig = $twig;
         $this->conferenceRepository = $conferenceRepository;
+        $this->messageBus = $messageBus;
     }
 
     /**
@@ -51,8 +58,7 @@ class ConferenceController // By not extending AbstractController you can custom
         Conference $conference,
         CommentRepository $commentRepository,
         FormFactoryInterface $formFactory,
-        string $photoDirectory,
-        SpamChecker $spamChecker
+        string $photoDirectory
     ) {
         $form = $formFactory
             ->create()
@@ -88,7 +94,7 @@ class ConferenceController // By not extending AbstractController you can custom
                     $filename
                 );
 
-                $this->checkForSpam($request, $spamChecker, $comment);
+
 
                 $this->conferenceRepository->save($conference);
             } else {
@@ -98,10 +104,15 @@ class ConferenceController // By not extending AbstractController you can custom
                     $formData['emailAddress']
                 );
 
-                $this->checkForSpam($request, $spamChecker, $comment);
-
                 $this->conferenceRepository->save($conference);
             }
+
+            $context = [
+                'user_ip' => $request->getClientIp(),
+                'referrer' => $request->headers->get('referer'),
+                'permalink' => $request->getUri(),
+            ];
+            $this->messageBus->dispatch(new CommentMessage($comment->getId(), $context));
 
             return new RedirectResponse('/conference/' . $conference->getSlug());
         }
@@ -116,14 +127,6 @@ class ConferenceController // By not extending AbstractController you can custom
             'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
             'form' => $form->createView(),
         ]));
-    }
-
-    private function checkForSpam(Request $request, SpamChecker $spamChecker, Comment $comment): void
-    {
-        $context = $this->getContext($request);
-        if ($spamChecker->getSpamScore($comment, $context) >= 1) {
-            throw new \RuntimeException('Blatant spam, go away!');
-        }
     }
 
     private function getContext(Request $request): array
