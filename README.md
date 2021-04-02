@@ -17,18 +17,18 @@ reading chapters 9 and 10 of the book. Here I would like to:
    
    a. Creating a tabular view of all the conferences DONE
    
-   b. Adding a modal form to create conferences
+   b. Adding a modal form to create conferences DONE
    
    c. Adding a way to edit existing conferences. In easy admin this is done within
-      the table, but we could also use another modal form like the add form.
+      the table, but we could also use another modal form like the add form. DONE
       
    d. Allow deletion of conferences in the tabular UI
    
    Comments
    
-   a. Create a tabular view of all of the comments
+   a. Create a tabular view of all of the comments (view by conference, not all)
    
-   b. Add a modal form to create comments
+   b. Add a modal form to create comments DONE
    
    c. Adding a way to edit existing comments. Similar to editing conferences above.
    
