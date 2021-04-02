@@ -22,3 +22,6 @@ config/secrets/dev/dev.decrypt.private.php
 config/secrets/dev/dev.encrypt.public.php
 config/secrets/test/test.decrypt.private.php
 config/secrets/test/test.encrypt.public.php
+
+# PHPStorm IDE project files
+.idea
